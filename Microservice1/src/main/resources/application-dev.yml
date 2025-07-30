@@ -1,0 +1,10 @@
+baseurl:
+  microservice2: http://localhost:8083/
+allowed :
+  url : "*"
+server:
+  port: "8080"
+  address: 0.0.0.0
+spring:
+  application:
+    name: "Microservice1"
