@@ -1,0 +1,8 @@
+replicaCount: 1
+
+appName: ui-app
+
+ui:
+  image: ashu20150/uifrontendaws:1
+
+serviceType: LoadBalancer

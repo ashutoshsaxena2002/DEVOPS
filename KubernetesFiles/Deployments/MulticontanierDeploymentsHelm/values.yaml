@@ -1,0 +1,14 @@
+replicaCount: 1
+
+appName: microservice-app
+
+microservice1:
+  image: ashu20150/microservice1:2
+  baseUrl: http://localhost:8082/
+
+microservice2:
+  image: ashu20150/microservice2:2
+
+springProfile: dev
+
+serviceType: LoadBalancer

@@ -3,6 +3,7 @@ services:
   backend2:
     container_name: microservice2LinuxContainer
     platform: linux/amd64
+    image: microservice2Aws:1
     build:
       context: C:\Users\ashut\Desktop\Projects\DEVOPS\Microservice2
     ports:
@@ -15,6 +16,7 @@ services:
   backend1:
     container_name: microservice1LinuxContainer
     platform: linux/amd64
+    image: microservice1Aws:1
     build:
       context: C:\Users\ashut\Desktop\Projects\DEVOPS\Microservice1
     ports:
@@ -29,11 +31,12 @@ services:
   frontend:
     container_name: frontend
     platform: linux/amd64
+    image: uifrontendAws:1
     build:
       context: C:\Users\ashut\Desktop\Projects\DEVOPS\uiservice
       args:
-       REACT_APP_MICROSERVICE1_API_BASE_URL: http://localhost:8081
-       REACT_APP_MICROSERVICE2_API_BASE_URL: http://localhost:8083
+       REACT_APP_MICROSERVICE1_API_BASE_URL: http://a1a921215d8ec4e22b5caf46ac90b6d7-1647125316.us-west-2.elb.amazonaws.com
+       REACT_APP_MICROSERVICE2_API_BASE_URL: http://a1a921215d8ec4e22b5caf46ac90b6d7-1647125316.us-west-2.elb.amazonaws.com:82
     ports:
       - "3001:3000"
     networks:
