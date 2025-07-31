@@ -1,0 +1,5 @@
+apiVersion: v2
+name: MulticontainerServicesHelm
+description: A Helm chart for service for deploying two microservices in one Pod
+version: 0.1.0
+appVersion: "1.0"

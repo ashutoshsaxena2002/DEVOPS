@@ -10,5 +10,3 @@ microservice2:
   image: ashu20150/microservice2:2
 
 springProfile: dev
-
-serviceType: LoadBalancer
