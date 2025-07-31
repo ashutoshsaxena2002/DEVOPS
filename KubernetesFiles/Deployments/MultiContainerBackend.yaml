@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microservice-app
+  template:
+    metadata:
+      labels:
+        app: microservice-app
+    spec:
+      containers:
+        - name: microservice1
+          image: ashu20150/microservice1:2
+          ports:
+            - containerPort: 8080
+          env:
+            - name: BASEURL_MICROSERVICE2
+              value: http://localhost:8082/
+            - name : SPRING_PROFILES_ACTIVE
+              value: dev 
+        - name: microservice2
+          image: ashu20150/microservice2:2
+          ports:
+            - containerPort: 8082
+          env:
+            - name : SPRING_PROFILES_ACTIVE
+              value: dev 

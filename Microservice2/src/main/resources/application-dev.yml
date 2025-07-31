@@ -1,5 +1,5 @@
 allowed :
-  url : "*"
+  url: "http://af41144ffe99c45d6929057aa21a2c65-280013685.us-west-2.elb.amazonaws.com:3001,http://localhost:3001,http://localhost:8080,http://localhost:8081,http://localhost:8082,http://localhost:8083"
 server:
   port: "8082"
   address: 0.0.0.0

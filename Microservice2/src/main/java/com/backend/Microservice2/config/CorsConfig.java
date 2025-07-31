@@ -19,20 +19,16 @@ public class CorsConfig {
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
+        System.out.println("URL:"+corsProperties.getUrl());
+
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 CorsRegistration registration = registry.addMapping("/**")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*");
-
-                if (corsProperties.isWildcard()) {
-                    registration.allowedOrigins("*")
-                            .allowCredentials(false);
-                } else {
-                    registration.allowedOriginPatterns(corsProperties.getUrl().toArray(new String[0]))
-                            .allowCredentials(true);
-                }
+                        .allowedHeaders("*")
+                        .allowedOriginPatterns(corsProperties.getUrl().toArray(new String[0]))
+                        .allowCredentials(true);
             }
         };
     }

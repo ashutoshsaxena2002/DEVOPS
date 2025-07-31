@@ -19,7 +19,4 @@ public class CorsProperties {
         this.url = url;
     }
 
-    public boolean isWildcard() {
-        return url != null && url.size() == 1 && "*".equals(url.get(0));
-    }
 }
