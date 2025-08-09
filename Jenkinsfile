@@ -59,7 +59,9 @@ pipeline {
 
         stage('Build & Push Docker Images') {
             when {
-                 return changedServices && !changedServices.isEmpty()
+                expression {
+                    return changedServices && !changedServices.isEmpty()
+                }
             }
             steps {
                 script {
