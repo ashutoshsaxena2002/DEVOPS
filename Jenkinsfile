@@ -6,6 +6,10 @@ pipeline {
         DOCKER_HUB_USER = 'ashu20150'  // user name of docker
     }
 
+    
+    // Define changedServices as a global variable
+    def changedServices = [] as Set
+
     stages {
         stage('Checkout') {
             steps {
@@ -17,7 +21,9 @@ pipeline {
             steps {
                 script {
                     def changeLogSets = currentBuild.changeSets
-                    def changedServices = [] as Set
+                    // Clear before populating
+                    changedServices.clear()
+
 
                     for (changeSet in changeLogSets) {
                         for (entry in changeSet.items) {
