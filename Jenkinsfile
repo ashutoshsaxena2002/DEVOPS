@@ -20,21 +20,28 @@ pipeline {
                     def changeLogSets = currentBuild.changeSets
                     def services = [] as Set
 
+                    echo "Services Tracking Started++++++++++++++++++++++++++++++++++++++++++++";
+
                     for (changeSet in changeLogSets) {
                         for (entry in changeSet.items) {
                             for (file in entry.affectedFiles) {
                                 if (file.path.startsWith('uiservice/')) {
                                     services << 'uiservice'
+                                     echo "Services Tracking Started : ui service changed++++++++++++++++++++++++++++++++++++++++++++";
                                 }
                                 if (file.path.startsWith('Microservice1/')) {
                                     services << 'Microservice1'
+                                    echo "Services Tracking Started : Microservice1 changed++++++++++++++++++++++++++++++++++++++++++++";
                                 }
                                 if (file.path.startsWith('Microservice2/')) {
                                     services << 'Microservice2'
+                                    echo "Services Tracking Started : Microservice2 changed ++++++++++++++++++++++++++++++++++++++++++++";
                                 }
                             }
                         }
                     }
+
+                     echo "Services Tracking Started end. services : ${services} CHANGED_SERVICES: ${ env.CHANGED_SERVICES}  ++++++++++++++++++++++++++++++++++++++++++++";
 
                     if (services.isEmpty()) {
                         echo "No relevant changes detected."
