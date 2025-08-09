@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     def changeLogSets = currentBuild.changeSets
-                    changedServices = [] as Set
+                    def changedServices = [] as Set
 
                     for (changeSet in changeLogSets) {
                         for (entry in changeSet.items) {
