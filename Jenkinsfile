@@ -2,13 +2,9 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_HUB_CREDS = 'docker-hub-creds'  // This is same name which we gave while creating pipeline on jenkins for storing docker creds
-        DOCKER_HUB_USER = 'ashu20150'  // user name of docker
+        DOCKER_HUB_CREDS = 'docker-hub-creds'  // Jenkins Docker Hub credentials ID
+        DOCKER_HUB_USER = 'ashu20150'          // Docker Hub username
     }
-
-    
-    // Define changedServices as a global variable
-    def changedServices = [] as Set
 
     stages {
         stage('Checkout') {
@@ -21,44 +17,46 @@ pipeline {
             steps {
                 script {
                     def changeLogSets = currentBuild.changeSets
-                    // Clear before populating
-                    changedServices.clear()
-
+                    def services = [] as Set
 
                     for (changeSet in changeLogSets) {
                         for (entry in changeSet.items) {
                             for (file in entry.affectedFiles) {
                                 if (file.path.startsWith('ui-service/')) {
-                                    changedServices << 'ui-service'
+                                    services << 'ui-service'
                                 }
                                 if (file.path.startsWith('microservice1/')) {
-                                    changedServices << 'microservice1'
+                                    services << 'microservice1'
                                 }
                                 if (file.path.startsWith('microservice2/')) {
-                                    changedServices << 'microservice2'
+                                    services << 'microservice2'
                                 }
                             }
                         }
                     }
 
-                    if (changedServices.isEmpty()) {
+                    if (services.isEmpty()) {
                         echo "No relevant changes detected."
                         currentBuild.result = 'SUCCESS'
                         return
                     }
 
-                    echo "Changed services: ${changedServices}"
+                    currentBuild.changedServices = services
+
+                    echo "Changed services: ${services}"
                 }
             }
         }
 
         stage('Build & Push Docker Images') {
             when {
-                expression { return changedServices }
+                expression { 
+                    return currentBuild.changedServices != null && !currentBuild.changedServices.isEmpty() 
+                }
             }
             steps {
                 script {
-                    changedServices.each { service ->
+                    currentBuild.changedServices.each { service ->
                         def imageName = "${DOCKER_HUB_USER}/${service}"
                         def servicePath = "./${service}"
 
