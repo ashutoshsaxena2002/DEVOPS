@@ -23,14 +23,14 @@ pipeline {
                     for (changeSet in changeLogSets) {
                         for (entry in changeSet.items) {
                             for (file in entry.affectedFiles) {
-                                if (file.path.startsWith('ui-service/')) {
-                                    services << 'ui-service'
+                                if (file.path.startsWith('uiservice/')) {
+                                    services << 'uiservice'
                                 }
-                                if (file.path.startsWith('microservice1/')) {
-                                    services << 'microservice1'
+                                if (file.path.startsWith('Microservice1/')) {
+                                    services << 'Microservice1'
                                 }
-                                if (file.path.startsWith('microservice2/')) {
-                                    services << 'microservice2'
+                                if (file.path.startsWith('Microservice2/')) {
+                                    services << 'Microservice2'
                                 }
                             }
                         }
