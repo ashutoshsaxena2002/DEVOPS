@@ -65,8 +65,8 @@ pipeline {
             }
             steps {
                 script {
-                    def services = changedServices.split(',')
-                    echo "Inside docker stage changedServices : ${changedServices}"
+                    def services = changedServices
+                    echo "Inside docker stage changedServices : ${services}"
 
                     for (service in services) {
                         def imageName = "${DOCKER_HUB_USER}/${service}"
