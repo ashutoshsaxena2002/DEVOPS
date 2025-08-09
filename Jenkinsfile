@@ -1,10 +1,10 @@
+def changedServices = [] // Global variable to persist between stages
 pipeline {
     agent any
 
     environment {
         DOCKER_HUB_CREDS = 'docker-hub-creds'  // Docker Hub credentials ID in Jenkins
         DOCKER_HUB_USER = 'ashu20150'          // Docker Hub username
-        CHANGED_SERVICES = ''                   // Will hold comma-separated changed services
     }
 
     stages {
@@ -41,31 +41,30 @@ pipeline {
                         }
                     }
 
-                     echo "Services Tracking Started end. services : ${services} CHANGED_SERVICES: ${ env.CHANGED_SERVICES}  ++++++++++++++++++++++++++++++++++++++++++++";
+                    echo "Services Tracking Started end. services : ${services} CHANGED_SERVICES: ${changedServices}  ++++++++++++++++++++++++++++++++++++++++++++";
 
                     if (services.isEmpty()) {
                         echo "No relevant changes detected."
                         currentBuild.result = 'SUCCESS'
-                        // Set env.CHANGED_SERVICES empty to skip build stage
-                        env.CHANGED_SERVICES = ''
+                        changedServices = ''
                         return
                     }
-
-                    // Save changed services as comma-separated string in env variable
-                    env.CHANGED_SERVICES = services.join(',')
-
-                    echo "Changed services: ${env.CHANGED_SERVICES}"
+                   echo "Before Setting value to changed services. services : ${services} CHANGED_SERVICES: ${changedServices}  ++++++++++++++++++++++++++++++++++++++++++++";
+                   changedServices= services as List;
+                   echo "After Setting value to changed services. services : ${services} CHANGED_SERVICES: ${changedServices}  ++++++++++++++++++++++++++++++++++++++++++++";
+                   echo "Changed services: ${changedServices}"
                 }
             }
         }
 
         stage('Build & Push Docker Images') {
             when {
-                expression { return env.CHANGED_SERVICES?.trim() }
+                expression { return changedServices?.trim() }
             }
             steps {
                 script {
-                    def services = env.CHANGED_SERVICES.split(',')
+                    def services = changedServices.split(',')
+                    echo "Inside docker stage changedServices : ${changedServices}"
 
                     for (service in services) {
                         def imageName = "${DOCKER_HUB_USER}/${service}"
